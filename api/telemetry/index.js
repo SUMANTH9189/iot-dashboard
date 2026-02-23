@@ -1,7 +1,7 @@
 const { KustoClient, KustoConnectionStringBuilder } = require("azure-kusto-data");
 
 module.exports = async function (context, req) {
-    
+
     if (req.method === "OPTIONS") {
         context.res = {
             status: 200,
@@ -15,10 +15,13 @@ module.exports = async function (context, req) {
         return;
     }
 
-    const clusterUrl = process.env.ADX_CLUSTER_URL;
-    const database = process.env.ADX_DATABASE || "iotdb";
+    const clusterUrl   = process.env.ADX_CLUSTER_URL;
+    const database     = process.env.ADX_DATABASE || "iotdb";
+    const clientId     = process.env.AZURE_CLIENT_ID;
+    const clientSecret = process.env.AZURE_CLIENT_SECRET;
+    const tenantId     = process.env.AZURE_TENANT_ID;
+
     const range = req.query.range || "1h";
-    
     const allowedRanges = ["1h", "6h", "12h", "1d", "7d"];
     if (!allowedRanges.includes(range)) {
         context.res = { status: 400, body: { error: "Invalid range" } };
@@ -26,7 +29,12 @@ module.exports = async function (context, req) {
     }
 
     try {
-        const kcsb = KustoConnectionStringBuilder.withAzLoginIdentity(clusterUrl);
+        const kcsb = KustoConnectionStringBuilder.withAadApplicationKeyAuthentication(
+            clusterUrl,
+            clientId,
+            clientSecret,
+            tenantId
+        );
         const client = new KustoClient(kcsb);
 
         const query = `
@@ -38,7 +46,7 @@ module.exports = async function (context, req) {
 
         const results = await client.execute(database, query);
         const rows = results.primaryResults[0].rows();
-        
+
         const data = [];
         for (const row of rows) {
             data.push({
