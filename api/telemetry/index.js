@@ -47,15 +47,18 @@ module.exports = async function (context, req) {
         const results = await client.execute(database, query);
         const rows = results.primaryResults[0].rows();
 
-        const data = [];
-        for (const row of rows) {
-            data.push({
-                time: row["TimeGenerated"],
-                temp: row["temp"],
-                hum: row["hum"],
-                deviceTime: row["deviceTime"]
-            });
-        }
+        const columns = results.primaryResults[0].columns.map(c => c.name);
+
+const data = rows.map(row => {
+  const obj = {};
+  columns.forEach((col, i) => obj[col] = row[i]);
+  return {
+    time: obj.TimeGenerated,
+    temp: obj.temp,
+    hum: obj.hum,
+    deviceTime: obj.deviceTime
+  };
+});
 
         context.res = {
             status: 200,
