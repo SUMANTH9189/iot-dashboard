@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ESP32 IoT Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <span class="header-icon">📡</span>
+      <div>
+        <h1>ESP32 IoT Dashboard</h1>
+        <p class="subtitle">Live Telemetry from Azure Data Explorer</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <select id="rangeSelect" onchange="fetchData()">
+        <option value="1h">Last 1 Hour</option>
+        <option value="6h">Last 6 Hours</option>
+        <option value="12h">Last 12 Hours</option>
+        <option value="1d">Last 1 Day</option>
+        <option value="7d">Last 7 Days</option>
+      </select>
+      <button onclick="fetchData()">🔄 Refresh</button>
+      <div class="status-dot" id="statusDot"></div>
+      <span id="lastUpdated" class="last-updated">Not loaded yet</span>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-card temp-card">
+      <div class="kpi-label">🌡️ Current Temp</div>
+      <div class="kpi-value" id="currentTemp">--</div>
+      <div class="kpi-unit">°C</div>
+    </div>
+    <div class="kpi-card hum-card">
+      <div class="kpi-label">💧 Current Humidity</div>
+      <div class="kpi-value" id="currentHum">--</div>
+      <div class="kpi-unit">%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">🔺 Max Temp</div>
+      <div class="kpi-value" id="maxTemp">--</div>
+      <div class="kpi-unit">°C</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">🔻 Min Temp</div>
+      <div class="kpi-value" id="minTemp">--</div>
+      <div class="kpi-unit">°C</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">📊 Data Points</div>
+      <div class="kpi-value" id="dataPoints">--</div>
+      <div class="kpi-unit">records</div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <h3>🌡️ Temperature vs Time</h3>
+      <canvas id="tempChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>💧 Humidity vs Time</h3>
+      <canvas id="humChart"></canvas>
+    </div>
+  </div>
+
+  <div id="errorBox" class="error-box" style="display:none"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

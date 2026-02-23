@@ -1,0 +1,8 @@
+{
+  "name": "iot-dashboard-api",
+  "version": "1.0.0",
+  "description": "Azure Function API for IoT Dashboard",
+  "dependencies": {
+    "azure-kusto-data": "^6.0.0"
+  }
+}
