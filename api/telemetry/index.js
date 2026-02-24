@@ -1,4 +1,6 @@
+// redeploy trigger
 const { KustoClient, KustoConnectionStringBuilder } = require("azure-kusto-data");
+// import {KustoConnectionStringBuilder, KustoClient} from "azure-kusto-data";
 
 module.exports = async function (context, req) {
 
@@ -20,6 +22,14 @@ module.exports = async function (context, req) {
     const clientId     = process.env.AZURE_CLIENT_ID;
     const clientSecret = process.env.AZURE_CLIENT_SECRET;
     const tenantId     = process.env.AZURE_TENANT_ID;
+
+    context.log("ENV CHECK", {
+  clusterUrl,
+  database,
+  clientId,
+  tenantId,
+  hasSecret: !!clientSecret
+});
 
     const range = req.query.range || "1h";
     const allowedRanges = ["1h", "6h", "12h", "1d", "7d"];

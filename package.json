@@ -1,10 +1,14 @@
 {
   "name": "iot-dashboard",
   "version": "1.0.0",
+  "module": "",
   "scripts": {
     "build": "echo No build step needed"
   },
   "engines": {
     "node": "18.x"
+  },
+  "dependencies": {
+    "azure-kusto-data": "^7.0.4"
   }
 }
