@@ -27,6 +27,7 @@ jobs:
           app_location: "/"
           api_location: "api"
           output_location: "."
+          github_id_token: ${{ steps.idtoken.outputs.result }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -39,3 +40,4 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PURPLE_COAST_0CC226400 }}
 
           action: "close"
+
