@@ -3,6 +3,16 @@ const { KustoConnectionStringBuilder, KustoClient } = require("azure-kusto-data"
 // import {KustoConnectionStringBuilder, KustoClient} from "azure-kusto-data";
 
 module.exports = async function (context, req) {
+     // 🔐 Authentication check
+    const principal = req.headers["x-ms-client-principal"];
+
+    if (!principal) {
+        context.res = {
+            status: 401,
+            body: "Not authenticated"
+        };
+        return;
+    }
 
     if (req.method === "OPTIONS") {
         context.res = {
