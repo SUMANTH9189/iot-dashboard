@@ -1,15 +1,15 @@
 {
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  },
   "routes": [
     {
-      "route": "/api/*",
-      "allowedRoles": ["authenticated"]
+      "route": "/.auth/*",
+      "allowedRoles": ["anonymous", "authenticated"]
     },
     {
       "route": "/*",
       "allowedRoles": ["authenticated"]
     }
-  ],
-  "navigationFallback": {
-    "rewrite": "/index.html"
-  }
+  ]
 }
