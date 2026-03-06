@@ -5,6 +5,7 @@
     "node": "18.x"
   },
   "dependencies": {
-    "azure-kusto-data": "^6.0.0"
+    "azure-kusto-data": "^6.0.0",
+    "jsonwebtoken": "^9.0.3"
   }
 }
