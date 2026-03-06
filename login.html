@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+</head>
+
+<body>
+
+<h2>IoT Dashboard Login</h2>
+
+<form id="loginForm">
+
+<input type="text" id="username" placeholder="Username" required>
+<br><br>
+
+<input type="password" id="password" placeholder="Password" required>
+<br><br>
+
+<button type="submit">Login</button>
+
+</form>
+
+<script>
+
+document.getElementById("loginForm").addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const username = document.getElementById("username").value;
+const password = document.getElementById("password").value;
+
+const res = await fetch("/api/login",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({username,password})
+});
+
+const data = await res.json();
+
+if(data.success){
+localStorage.setItem("token",data.token);
+window.location.href="index.html";
+}else{
+alert("Invalid login");
+}
+
+});
+
+</script>
+
+</body>
+</html>
